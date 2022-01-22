@@ -1,0 +1,75 @@
+<ng-container *ngIf="message">
+  <div
+    *ngIf="!message.isEvent && message.isVisitor"
+    class="flex rounded-md px-4 py-1.5 max-w-[70%] text-sm tracking-wide bg-blue-600 text-gray-50"
+    [innerHtml]="message.text"
+  ></div>
+
+  <div
+    *ngIf="!message.isEvent && !message.isVisitor"
+    class="flex rounded-md py-1.5 w-[70%] text-sm tracking-wide"
+  >
+    <div *ngIf="message.type === 'text'" class="flex-1 flex">
+      <div
+        *ngIf="member"
+        class="image flex w-8 h-8 rounded-full text-lg uppercase font-bold justify-center items-center text-gray-400 bg-gray-100 border-2 border-white mr-2"
+      >
+        {{ member.name.substring(0, 1) }}
+      </div>
+      <div
+        class="flex rounded-md px-4 py-1.5 text-sm tracking-wide bg-gray-100 text-gray-600 text-left"
+        [innerHtml]="message.text"
+      ></div>
+    </div>
+    <div *ngIf="message.type === 'buttons'" class="flex-1 flex flex-wrap">
+      <button
+        *ngFor="let button of message.buttons"
+        (click)="onButtonClicked(message.key, button, index)"
+        class="mx-2 my-1 p-2 text-blue-500 border border-blue-500 rounded hover:bg-blue-600 hover:text-gray-50"
+      >
+        {{ button }}
+      </button>
+    </div>
+    <div
+      *ngIf="message.type === 'input'"
+      class="flex-1 flex flex-col flex-wrap"
+    >
+      <div
+        *ngFor="let input of message.inputs"
+        class="w-full my-2 flex flex-col"
+      >
+        <div class="font-bold text-xs text-left mb-2">
+          {{ input.name }}
+        </div>
+        <div class="flex">
+          <input
+            class="p-2 border rounded w-full text-sm mr-2"
+            [placeholder]="input.name"
+            [(ngModel)]="input.data"
+          />
+          <button
+            (click)="onInputEntered(message.inputs)"
+            class="bg-blue-500 text-white h-10 w-10 rounded flex justify-center items-center"
+          >
+            <i class="fas fa-check"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="message && message.isEvent"
+    class="text-center text-gray-600 w-3/5 m-auto"
+    [innerHtml]="message.text"
+  ></div>
+
+  <div
+    *ngIf="message && message.datetime"
+    [ngClass]="message.isEvent ? '' : 'mt-1'"
+    class="text-center text-[11px] text-gray-400"
+    [ngClass]="message.isEvent ? 'm-auto' : ''"
+  >
+    {{ message.datetime }}
+  </div>
+</ng-container>

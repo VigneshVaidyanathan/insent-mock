@@ -1,0 +1,48 @@
+<div
+  class="header p-2 px-5 flex bg-blue-600 rounded-tl-lg rounded-tr-lg items-center"
+>
+  <div class="image w-8 h-8 rounded-full border-2 border-white mr-2">
+    <img
+      *ngIf="!member"
+      [src]="settings?.settings?.bot?.img"
+      [alt]="settings?.settings?.bot?.company"
+      class="w-full h-full rounded-lg"
+    />
+
+    <div
+      *ngIf="member"
+      class="image text-xl uppercase font-bold justify-center items-center text-gray-50"
+    >
+      {{ member.name.substring(0, 1) }}
+    </div>
+  </div>
+  <div *ngIf="member" class="flex flex-col items-start ml-3">
+    <div class="text-lg text-gray-50">{{ member.name }}</div>
+    <div class="text-gray-200 text-xs">{{ member.title }}</div>
+  </div>
+  <div *ngIf="!member" class="title text-base text-gray-50">Insent Bot</div>
+</div>
+
+<div
+  *ngIf="messages.length === 0"
+  class="flex justify-center items-center h-[600px]"
+>
+  <i class="fas fa-spinner animate-spin text-gray-600"></i>
+</div>
+
+<div *ngIf="messages.length !== 0" class="p-2 overflow-auto h-[600px]">
+  <div
+    *ngFor="let message of messages; let i = index"
+    class="flex flex-col my-2"
+  >
+    <app-bot-message
+      [message]="message"
+      [member]="member"
+      [index]="i"
+      (inputEntered)="onInputEntered($event)"
+      (buttonClicked)="onButtonClicked($event)"
+      class="flex flex-col"
+      [ngClass]="[message.isVisitor ? 'items-end' : 'items-start']"
+    ></app-bot-message>
+  </div>
+</div>

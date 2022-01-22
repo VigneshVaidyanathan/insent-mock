@@ -1,0 +1,20 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div
+  class="flex h-full p-5 bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100"
+>
+  <div>
+    <h1 class="text-gray-800 text-2xl">
+      {{ isLoading ? 'Loading the Insent bot.' : 'Insent bot loaded.' }}
+    </h1>
+    <div
+      [ngClass]="[showBot ? 'opacity-100' : 'opacity-0']"
+      class="absolute bottom-5 right-10 opacity-100 h-full flex flex-col flex-col-reverse"
+    >
+      <app-bot
+        *ngIf="settings"
+        [settings]="settings"
+        class="flex-1 pt-5"
+      ></app-bot>
+    </div>
+  </div>
+</div>

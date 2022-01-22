@@ -1,0 +1,67 @@
+<div
+  *ngIf="settings"
+  [ngClass]="[showModal ? '' : 'flex-col-reverse']"
+  class="flex flex-col flex-1 pt-5 items-end h-full"
+>
+  <div
+    *ngIf="showModal"
+    class="modal bg-white mb-3 cursor-pointer shadow-xl rounded-lg flex-1 w-[400px]"
+  >
+    <app-bot-chat
+      [member]="member"
+      [messages]="messages"
+      [settings]="settings"
+      (inputEntered)="onInputEntered($event)"
+      (buttonClicked)="buttonClicked($event)"
+    ></app-bot-chat>
+  </div>
+
+  <div class="flex cursor-pointer">
+    <div
+      *ngIf="showPopover"
+      class="bg-transparent rounded-lg flex justify-center items-start mr-3 self-center"
+    >
+      <div class="mr-1 cursor-pointer -mt-1" (click)="togglePopover()">
+        <i class="far fa-times-circle text-lg text-gray-600"></i>
+      </div>
+      <div
+        class="p-3 bg-white rounded shadow-lg max-w-[300px]"
+        (click)="openModal()"
+        [innerHtml]="messages[0].text"
+      ></div>
+    </div>
+
+    <div
+      [ngClass]="[showPopover ? 'border-gray-600' : 'border-gray-50']"
+      class="w-12 h-12 bg-white rounded-lg overflow-hidden border-2 shadow-lg"
+    >
+      <img
+        *ngIf="showPopover && !showModal"
+        [src]="settings.settings.bot.img"
+        [alt]="settings.settings.bot.company"
+        class="w-full h-full rounded-lg"
+        (click)="openModal()"
+      />
+      <div
+        *ngIf="!showPopover && !showModal"
+        class="w-full h-full bg-blue-600 flex justify-center items-center"
+        (click)="openModal()"
+      >
+        <i class="fas fa-comment-alt text-2xl text-gray-50"></i>
+      </div>
+      <div
+        *ngIf="!showPopover && showModal"
+        class="w-full h-full bg-blue-600 flex justify-center items-center"
+        (click)="closeModal()"
+      >
+        <i class="fas fa-times text-2xl text-gray-50"></i>
+      </div>
+    </div>
+
+    <div
+      class="badge absolute -top-2 -right-2 rounded-full bg-red-400 flex justify-center items-center text-xs w-5 h-5 text-gray-50 font-bold shadow-lg"
+    >
+      1
+    </div>
+  </div>
+</div>
